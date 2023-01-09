@@ -1,0 +1,85 @@
+<form id="formRegis" (ngSubmit)="login()" method="post">
+  <mat-form-field appearance="outline">
+    <mat-label>Pseudo</mat-label>
+    <input
+      matInput
+      placeholder="Redigit"
+      name="username"
+      [formControl]="usernameFormControl"
+      required
+    />
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    <mat-error *ngIf="usernameFormControl.invalid">{{
+      getErrorMessageUsername()
+    }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Mot de passe</mat-label>
+    <input
+      matInput
+      [type]="hidePassword ? 'password' : 'text'"
+      [formControl]="passwordFormControl"
+      name="password"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="hidePassword = !hidePassword"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hidePassword"
+    >
+      <mat-icon>{{ hidePassword ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+    <mat-error *ngIf="passwordFormControl.invalid">{{ getErrorMessagePassword() }}</mat-error>
+  </mat-form-field>
+  <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+  <button
+    type="submit"
+    mat-flat-button
+    color="primary"
+    [disabled]="!isValidForm()"
+  >
+    Se connecter
+  </button>
+
+  <br>
+  <h3>OU</h3>
+  <br>
+  <div class="row">
+    <div class="columns"><button mat-flat-button style="background-color: #d14635">
+      <img
+        src="https://www.svgrepo.com/show/327365/logo-google.svg"
+        class="connectLogo"
+        alt=""
+        (click)="connectGoogle()"
+      />
+    </button></div>
+    <div class="columns"><button mat-flat-button style="background-color: #3d4ae1">
+      <img
+        src="https://www.svgrepo.com/show/327349/logo-discord.svg"
+        class="connectLogo"
+        alt=""
+        (click)="connectDiscord()"
+      />
+    </button></div>
+  </div>
+  
+  <br>
+  <h3>Pas de compte ?</h3>
+  <br>
+
+  <button
+    id="register"
+    class="logButton"
+    mat-flat-button
+    color="grey"
+    style="margin-left: 4px; background-color: #555b6f; color: white"
+    routerLinkActive="activebutton"
+    routerLink="/register"
+  >
+  S'enregistrer
+  </button>
+
+</form>
+

@@ -1,0 +1,37 @@
+<div id="body">
+  <p>
+    Bienvenue sur <strong>TerrAstuces</strong>, un site de partage d'astuces en
+    tous genres à propos de <a href="https://terraria.org" target="_blank" rel="noopener noreferrer"
+    >Terraria.</a
+  >
+  </p>
+  <p>
+    Terraria est un jeu 2D d'action adventure et bac à sable sorti en 2011.
+    Disponible sur une multitude de plateformes, il repose sur l'exploration,
+    l'action, la construction et le combat.
+  </p>
+  <p>
+    Terraria etant un jeu avec une forte communauté, il existe une pléthore de
+    mods, qu'ils soient esthétiques, quality of life, certains ajoutent même des
+    mécaniques de gameplay.
+  </p>
+  <p>
+    Le jeu comporte une multitude de blocs, objets, ennemis et boss, ayant
+    chacun leur propre usage et caractéristique. Ce site a pour but de diffuser
+    toutes astuces relatif au jeu, aussi bien sur les mécaniques de bases que
+    sur les objets, les boss et même les mods.
+  </p>
+
+  <div class="griddle">
+      <div><img src="assets/IMG1.jpg" alt=""></div>
+      <div><img src="assets/IMG2.jpg" alt=""></div>
+      <div><img src="assets/IMG3.jpg" alt=""></div>
+  </div>
+
+  <h2 style="padding-top: 20px;">Liste d'astuces :</h2>
+  <button mat-flat-button color="accent" *ngIf="tokenService.getToken()" routerLink="new-tip">
+    Nouvelle astuce
+  </button>
+  <br />
+  <app-tips-list></app-tips-list>
+</div>

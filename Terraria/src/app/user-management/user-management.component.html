@@ -1,0 +1,90 @@
+<h2 style="text-align: center">Gestion des utilisateurs</h2>
+
+<mat-form-field class="example-full-width">
+  <mat-label>Rechercher pseudo</mat-label>
+  <input
+    matInput
+    placeholder="Ex : user"
+    [(ngModel)]="searchUsername"
+    autocomplete="off"
+  />
+</mat-form-field>
+<mat-form-field class="example-full-width">
+  <mat-label>Rechercher id</mat-label>
+  <input
+    matInput
+    type="number"
+    placeholder="Ex : 1"
+    [(ngModel)]="searchId"
+    autocomplete="off"
+    style="margin: 0"
+  />
+</mat-form-field>
+
+<mat-form-field class="example-full-width">
+  <mat-label>utilisateurs bannis</mat-label>
+  <mat-select [(value)]="searchBanned">
+    <mat-option>Tout</mat-option>
+    <mat-option value="true">Bannis</mat-option>
+    <mat-option value="false">Non bannis</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<table matSort (matSortChange)="sortData($event)">
+  <tr>
+    <th mat-sort-header="username">Pseudo</th>
+    <th mat-sort-header="id">Id</th>
+    <th mat-sort-header="admin">Admin</th>
+  </tr>
+
+  <tr
+    *ngFor="
+      let user of sortedUsers
+        | filterUsername : searchUsername
+        | filterId : searchId
+        | filterBanned : searchBanned
+    "
+  >
+    <td>{{ user.username }}</td>
+    <td>{{ user.id }}</td>
+    <td>{{ user.isAdmin ? "admin" : "utilisateur" }}</td>
+    <td>
+      <button
+        mat-flat-button
+        color="accent"
+        [disabled]="user.isBanned"
+        *ngIf="!user.isAdmin"
+        (click)="manageUser(user.username, user.id, UserManagementType.PROMOTE)"
+      >
+        Promouvoir
+      </button>
+      <button
+        mat-flat-button
+        color="accent"
+        [disabled]="user.isBanned"
+        *ngIf="user.isAdmin"
+        (click)="manageUser(user.username, user.id, UserManagementType.DEMOTE)"
+      >
+        Dégrader
+      </button>
+    </td>
+    <td>
+      <button
+        mat-flat-button
+        color="warn"
+        *ngIf="!user.isAdmin && !user.isBanned"
+        (click)="manageUser(user.username, user.id, UserManagementType.BAN)"
+      >
+        Bannir
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        *ngIf="user.isBanned"
+        (click)="manageUser(user.username, user.id, UserManagementType.UNBAN)"
+      >
+        Débannir
+      </button>
+    </td>
+  </tr>
+</table>

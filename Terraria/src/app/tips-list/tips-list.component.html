@@ -1,0 +1,95 @@
+<ng-container *ngIf="onlyPending; else newDeb">
+  <h2 style="text-align: center;"> Astuces en attente</h2>
+</ng-container>
+<ng-template #newDeb>
+  <ng-template *ngIf="!isTipOwner; else mine"></ng-template>
+  <ng-template #mine><h2 style="text-align: center;"> Mes Astuces</h2></ng-template>
+</ng-template>
+
+<mat-form-field class="example-full-width">
+  <mat-label>Rechercher titre</mat-label>
+  <input
+    matInput
+    placeholder="Ex : Œil de cthulhu"
+    [(ngModel)]="searchTitle"
+    autocomplete="off"
+  />
+</mat-form-field>
+<mat-form-field appearance="fill" class="form-field">
+<mat-label>Tags</mat-label>
+      <mat-select
+        [(ngModel)]="selectedTags"
+        multiple
+      >
+        <mat-option *ngFor="let tag of tipsService.tags" [value]="tag">{{
+          tag
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+<mat-form-field class="example-full-width">
+  <mat-label>Rechercher auteur</mat-label>
+  <input
+    matInput
+    placeholder="Ex : user"
+    [(ngModel)]="searchAuthor"
+    autocomplete="off"
+  />
+</mat-form-field>
+
+<table matSort (matSortChange)="sortData($event)" class="unstriped">
+  <tr>
+    <th mat-sort-header="name">Titre</th>
+    <th mat-sort-header="tags">Tags</th>
+    <th mat-sort-header="author">Auteur</th>
+  </tr>
+
+  <tr
+    *ngFor="
+      let tip of sortedTips
+        | filter : searchTitle
+        | filterTags : selectedTags
+        | filterAuthor : searchAuthor
+    "
+  >
+
+    <ng-container *ngIf="tip.isAvailable || isTipOwner">
+      <td style='cursor:pointer' 
+      (click) = 'getTipInfos(tip.id)'>{{ tip.title }}</td>
+      <td>{{ tip.tags }}</td>
+      <td *ngIf="!isTipOwner">{{ tip.user.username }}</td>
+      <td *ngIf="tip.userID == tokenService.getUserID() && isTipOwner">{{ tip.isAvailable ? "Validé" : "En attente" }}</td> 
+      <td>
+        <button
+          mat-icon-button
+          (click)="deleteTip(tip.title, tip.id, tokenService.getAdminState())"
+          *ngIf="tokenService.getAdminState() || tip.userID == tokenService.getUserID()"
+        >
+          <mat-icon color="warn">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container *ngIf="!tip.isAvailable && onlyPending">
+      <td style='cursor:pointer' 
+      (click) = 'getTipInfos(tip.id)'>{{ tip.title }}</td>
+      <td>{{ tip.tags }}</td>
+      <td>{{ tip.user.username }}</td>
+      <td>{{ tip.isAvailable ? "Validé" : "En attente" }}</td>
+      <td>
+        <button mat-icon-button (click)="validateTip(tip.title, tip.id)">
+          <mat-icon color="accent">check-circle</mat-icon>
+        </button>
+      </td>
+
+      <td>
+        <button
+          mat-icon-button
+          (click)="deleteTip(tip.title, tip.id, tokenService.getAdminState())"
+          *ngIf="tokenService.getAdminState() || tip.userID == tokenService.getUserID()"
+        >
+          <mat-icon color="warn">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+  </tr>
+</table>

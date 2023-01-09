@@ -1,0 +1,92 @@
+<mat-grid-list cols="2" rowHeight="100px">
+  <mat-grid-tile colspan="2">
+    <div id="CurrentTip" *ngIf="!isEditing"><p style="text-align: center;"><strong>{{ currentTip.title }}</strong></p></div>
+    <mat-form-field class="form-field" *ngIf="isEditing">
+      <mat-label>Titre</mat-label>
+      <input matInput placeholder="Ex : Battre un boss" [(ngModel)]="editTip.title" />
+    </mat-form-field>
+    <button id="btnmodif" mat-flat-button color="accent" (click)="beginEditing()" *ngIf="currentTip.userID == tokenService.getUserID() && !isEditing">
+      Modifier l'astuce
+    </button>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2">
+    <p *ngIf="!isEditing"><strong>Tags : </strong>
+      {{ currentTip.tags }}</p>
+    <mat-form-field appearance="fill" class="form-field" *ngIf="isEditing">
+      <mat-label>Tags</mat-label>
+      <mat-select [(ngModel)]="editTags" multiple>
+        <mat-option *ngFor="let tag of tipsService.tags" [value]="tag">{{
+          tag
+          }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="4">
+    <img id="tipPic" [src]="currentTip.tipPicture" alt="" />
+    <input *ngIf="isEditing" type="file" class="file-upload" accept="image/*" (change)="setTipPicture($event)" />
+  </mat-grid-tile>
+  
+  <mat-grid-tile rowspan="4">
+    <h3>Détails: </h3>
+    <div *ngIf="!isEditing" [innerHTML]="currentTip.subjectDescription"></div>
+    <mat-form-field class="form-field" *ngIf="isEditing">
+      <mat-label>détails sur l'objet, le boss, ...</mat-label>
+      <textarea matInput [(ngModel)]="editTip.subjectDescription" placeholder="Ex : degats : 38"></textarea>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="2">
+    <h3 *ngIf="isEditing">Astuce:</h3>
+    <div id="tipdiv" class="scrollable" *ngIf="!isEditing">
+      <h3>Astuce:</h3>
+      <div id="tipContent" [innerHTML]="currentTip.tipDescription" *ngIf="!isEditing" style="align-content: center;"></div>
+    </div>
+
+    <mat-form-field class="form-field" *ngIf="isEditing">
+      <mat-label>Astuce</mat-label>
+      <textarea style="width: 1000px" matInput [(ngModel)]="editTip.tipDescription" placeholder="Ecrivez l'astuce"></textarea>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile *ngIf="tokenService.getToken() && !isEditing && currentTip.isAvailable" colspan="2" class="scrollable">
+    <mat-form-field class="form-field" style="padding-right: 10px; width: 300px;">
+      <mat-label>Commentaire</mat-label>
+      <textarea matInput [(ngModel)]="tipComment" placeholder="Commentez l'astuce"></textarea>
+    </mat-form-field>
+    <button  color="accent" mat-flat-button [disabled]="!tipComment" (click)="addComment()">
+      Valider commentaire
+    </button>
+  </mat-grid-tile>
+
+  <mat-grid-tile *ngIf="!isEditing" colspan="2" rowspan="10">
+    <div class="scrollable" style="width: 100%;">
+      <div class="row">
+        <div class="columns" *ngFor="let comment of comments">
+          <div class="card" style="width: 400px">
+            <div class="card-divider">
+              <img id="pic" [src]="comment.user.profilePicture" alt="" />
+              <p style="padding: 10px;">{{comment.user.username}}</p>
+            </div>
+
+            <div class="card-section">
+              <p>{{comment.text}}</p>
+              <button mat-icon-button
+                (click)="deleteComment(comment.user.username, comment.id, tokenService.getAdminState())"
+                *ngIf="tokenService.getAdminState() || comment.userID == tokenService.getUserID()">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+<div id="btns">
+  <button mat-flat-button (click)="validateEditing()" *ngIf="isEditing" color="accent">
+    Valider Modifications
+  </button>
+  <button mat-flat-button (click)="cancelEditing()" *ngIf="isEditing" color="warn">
+    Annuler Modifications
+  </button>
+</div>

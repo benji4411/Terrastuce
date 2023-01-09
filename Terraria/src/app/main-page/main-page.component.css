@@ -1,0 +1,25 @@
+#body {
+  padding: 10px;
+}
+
+.griddle {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px 20px;
+}
+
+.griddle div img:hover {
+  transform: scale(1.1);
+  transition: 0.1s;
+}
+
+a {
+  color: #64dd17;
+}
+a:hover {
+  color: #64dd17;
+  text-decoration: underline;
+}
+a:visited {
+  color: #63473f;
+}

@@ -1,0 +1,177 @@
+<div class="row" id="pic">
+  <div class="columns large-3">
+    <img [src]="user.profilePicture" alt="" id="image" />
+  </div>
+  <div class="columns large-2" id="title">
+    <span style="text-transform: uppercase; font-size: 20px"
+      ><strong>{{ user.username }}</strong></span
+    >
+  </div>
+  <div class="columns large-4"></div>
+</div>
+
+<div id="profilePic">
+  <input
+    *ngIf="isEditing"
+    type="file"
+    class="file-upload"
+    accept="image/*"
+    (change)="setTempProfilePicture($event)"
+  />
+</div>
+<div id="modif">
+  <button mat-flat-button color="accent" (click)="beginEditingProfile()">
+    Modifier
+  </button>
+</div>
+<!-- disabled matinputs for username, email, lastName, firstName if editing is false -->
+<div style="padding: 20px" [hidden]="!isEditing">
+  <mat-form-field appearance="outline" class="profileInput">
+    <mat-label>Username</mat-label>
+    <input matInput [(ngModel)]="editUser.username" [disabled]="!isEditing" />
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="profileInput">
+    <mat-label>Email</mat-label>
+    <input matInput [(ngModel)]="editUser.email" [disabled]="!isEditing" />
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="profileInput">
+    <mat-label>First Name</mat-label>
+    <input matInput [(ngModel)]="editUser.firstname" [disabled]="!isEditing" />
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="profileInput">
+    <mat-label>Last Name</mat-label>
+    <input matInput [(ngModel)]="editUser.lastname" [disabled]="!isEditing" />
+  </mat-form-field>
+  <mat-error *ngIf="profileErrorMessage">{{ profileErrorMessage }}</mat-error>
+  <button
+    id="change"
+    mat-flat-button
+    color="accent"
+    (click)="isEditingPassword = !isEditingPassword"
+    [disabled]="isEditingPassword"
+    *ngIf="isEditing && tokenService.getAuthType() == 'Intern'"
+    color="accent"
+  >
+    Changer mot de passe
+  </button>
+  <mat-card *ngIf="isEditingPassword" style="max-width: 480px">
+    <mat-card-header>
+      <mat-card-title>Changer mot de passe</mat-card-title>
+    </mat-card-header>
+    <mat-form-field appearance="outline">
+      <mat-label>Mot de passe actuel</mat-label>
+      <input
+        matInput
+        [type]="hideOldPassword ? 'password' : 'text'"
+        [(ngModel)]="oldPassword"
+        name="oldPassword"
+        [formControl]="oldPasswordFormControl"
+        required="true"
+      />
+      <mat-icon
+        matSuffix
+        (click)="hideOldPassword = !hideOldPassword"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hideOldPassword"
+        style="cursor: pointer"
+        >{{ hideOldPassword ? "visibility_off" : "visibility" }}</mat-icon
+      >
+      <mat-error *ngIf="newPasswordFormControl.invalid">{{
+        getErrorMessageOldPassword()
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Nouveau mot de passe</mat-label>
+      <input
+        matInput
+        [type]="hideNewPassword ? 'password' : 'text'"
+        [(ngModel)]="newPassword"
+        [formControl]="newPasswordFormControl"
+        name="newPassword"
+      />
+      <mat-icon
+        matSuffix
+        (click)="hideNewPassword = !hideNewPassword"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hideNewPassword"
+        style="cursor: pointer"
+        >{{ hideNewPassword ? "visibility_off" : "visibility" }}</mat-icon
+      >
+      <mat-error *ngIf="newPasswordFormControl.invalid">{{
+        getErrorMessagePassword()
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      [color]="newPassword == confirmNewPassword ? 'primary' : 'warn'"
+    >
+      <mat-label>Confirmer le nouveau mot de passe *</mat-label>
+      <input
+        matInput
+        [type]="hideConfirmNewPassword ? 'password' : 'text'"
+        [(ngModel)]="confirmNewPassword"
+        name="pwd2"
+      />
+      <mat-icon
+        matSuffix
+        (click)="hideConfirmNewPassword = !hideConfirmNewPassword"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hideConfirmNewPassword"
+        style="cursor: pointer"
+        >{{
+          hideConfirmNewPassword ? "visibility_off" : "visibility"
+        }}</mat-icon
+      >
+      <mat-hint style="color: red" [hidden]="confirmNewPassword == newPassword"
+        >Mots de passe différents</mat-hint
+      >
+    </mat-form-field>
+    <mat-error *ngIf="passwordErrorMessage">{{
+      passwordErrorMessage
+    }}</mat-error>
+    <mat-card-actions>
+      <button
+        mat-flat-button
+        color="accent"
+        [disabled]="
+          newPassword != confirmNewPassword ||
+          !oldPassword ||
+          !newPassword ||
+          !confirmNewPassword ||
+          this.newPasswordFormControl.invalid
+        "
+        (click)="confirmEditingPassword()"
+        color="accent"
+      >
+        Changer mot de passe
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        (click)="cancelEditingPassword()"
+        color="warn"
+      >
+        Annuler
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<div id="btn">
+  <button
+    mat-flat-button
+    (click)="confirmEditingProfile()"
+    *ngIf="isEditing"
+    color="accent"
+  >
+    Valider
+  </button>
+  <button
+    mat-flat-button
+    (click)="cancelEditingProfile()"
+    *ngIf="isEditing"
+    color="warn"
+  >
+    Annuler
+  </button>
+</div>

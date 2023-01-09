@@ -1,0 +1,12 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table tr:hover {
+  background-color: #ececec !important;
+}
+
+table tr:first-child {
+  background-color: unset !important;
+}

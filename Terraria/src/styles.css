@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+  background-image: url("assets/background.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+footer {
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  background-color: #6a4a34;
+  color: #ffffff;
+  width: 100%;
+}
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-left: 40px;
+  margin-right: 40px;
+  padding-top: 40px;
+}
+footer a,
+footer a:visited {
+  color: #ffffff;
+  text-decoration: underline;
+}
+footer a:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.logu_univ {
+  height: 5%;
+}
+
+label {
+  min-width: 15%;
+}

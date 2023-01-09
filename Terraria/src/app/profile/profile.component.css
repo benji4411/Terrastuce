@@ -1,0 +1,60 @@
+#pic #image {
+  width: 200px;
+  height: 200px;
+}
+
+#edit {
+  padding-top: 150px !important;
+}
+
+#bts {
+  padding-top: 20px;
+}
+
+#pic div img,
+#pic,
+#bts {
+  padding: 0;
+  margin: 0;
+}
+
+#pic div,
+#bts div {
+  padding: 20px;
+}
+
+#title {
+  margin-top: 10%;
+}
+
+#profilePic input,
+#btn,
+#modif {
+  padding-left: 20px;
+}
+
+@media only screen and (max-width: 1000px) {
+  #edit {
+    padding: 0;
+    padding-top: 5px !important;
+  }
+
+  #bts div {
+    padding: 0;
+    padding-top: 5px !important;
+  }
+  #title {
+    margin: 0;
+    margin-top: 5px !important;
+  }
+}
+
+#btn button {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+mat-card-actions button,
+#change {
+  margin-left: 5px;
+}

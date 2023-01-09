@@ -1,0 +1,20 @@
+#formRegis {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 20px;
+}
+.connectLogo {
+  margin-top: 5px;
+  width: 30px;
+}
+#register{
+  margin-bottom: 5px;
+}
+
+@media only screen and (min-width: 500px) {
+  .row{
+      display: flex;
+      align-items: center;
+  }
+}

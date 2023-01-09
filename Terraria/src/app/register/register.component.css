@@ -1,0 +1,11 @@
+#formRegis {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.connectLogo {
+  margin-top: 5px;
+  width: 30px;
+}

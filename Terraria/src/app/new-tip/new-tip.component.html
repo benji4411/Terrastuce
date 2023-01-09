@@ -1,0 +1,55 @@
+<mat-grid-list cols="2" rowHeight="100px">
+  <mat-grid-tile colspan="2">
+    <mat-form-field class="form-field">
+      <mat-label>Titre</mat-label>
+      <input matInput placeholder="Ex : Battre un boss" [(ngModel)]="tempTip.title" />
+    </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2">
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Tags</mat-label>
+      <mat-select
+        [(ngModel)]="selectedTags"
+        multiple
+      >
+        <mat-option *ngFor="let tag of tipsService.tags" [value]="tag">{{
+          tag
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="4">
+    <input type="file" class="file-upload" accept="image/*" (change)="setTipPicture($event)"/>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="4">
+    <h3>Détails :</h3>
+    <mat-form-field class="form-field">
+      <mat-label>détails sur l'objet, le boss, ...</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="tempTip.subjectDescription"
+        placeholder="Ex : degats : 38"
+      ></textarea>
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="2" class="scrollable">
+    <h3>Astuce</h3>
+    <mat-form-field class="form-field">
+      <mat-label>Astuce</mat-label>
+      <textarea
+        matInput
+        [(ngModel)]="tempTip.tipDescription"
+        placeholder="Ecrivez l'astuce"
+      ></textarea>
+    </mat-form-field>
+  </mat-grid-tile>
+</mat-grid-list>
+<button
+  color="accent"
+  mat-flat-button
+  [disabled]="!tempTip.title || !tempTip.subjectDescription || !tempTip.tipDescription || !selectedTags"
+  (click) = "addTip()"
+>
+  Envoyer l'astuce
+</button>

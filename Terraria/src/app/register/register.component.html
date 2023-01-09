@@ -1,0 +1,111 @@
+<form id="formRegis" (ngSubmit)="register()" method="post">
+  <mat-form-field appearance="outline">
+    <mat-label>Pseudo</mat-label>
+    <input
+      matInput
+      placeholder="Redigit"
+      name="username"
+      [formControl]="usernameFormControl"
+      required
+    />
+    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+    <mat-error *ngIf="usernameFormControl.invalid">{{
+      getErrorMessageUsername()
+    }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Prénom</mat-label>
+    <input
+      matInput
+      placeholder="Ex : Andrew"
+      name="firstname"
+      [formControl]="firstnameFormControl"
+      required
+    />
+    <mat-icon matSuffix>contacts</mat-icon>
+    <mat-error *ngIf="firstnameFormControl.invalid">{{
+      getErrorMessageFirstName()
+    }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nom</mat-label>
+    <input
+      matInput
+      placeholder="Ex : Spinks"
+      name="lastname"
+      [formControl]="lastnameFormControl"
+      required
+    />
+    <mat-icon matSuffix>contacts</mat-icon>
+    <mat-error *ngIf="lastnameFormControl.invalid">{{
+      getErrorMessageLastName()
+    }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      placeholder="pat@example.com"
+      [formControl]="emailFormControl"
+      required
+    />
+    <mat-icon matSuffix>mail</mat-icon>
+    <mat-error *ngIf="emailFormControl.invalid">{{ getErrorMessageEmail() }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Entrer mot de passe</mat-label>
+    <input
+      matInput
+      [type]="hidePassword ? 'password' : 'text'"
+      [(ngModel)]="password"
+      [formControl]="passwordFormControl"
+      name="password"
+    />
+    <mat-icon
+      matSuffix
+      (click)="hidePassword = !hidePassword"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hidePassword"
+      style="cursor: pointer"
+      >{{ hidePassword ? "visibility_off" : "visibility" }}</mat-icon
+    >
+    <mat-error *ngIf="passwordFormControl.invalid">{{ getErrorMessagePwd() }}</mat-error>
+  </mat-form-field>
+
+  <mat-form-field
+    appearance="outline"
+    [color]="passwordConfirmation == password ? 'primary' : 'warn'"
+  >
+    <mat-label>Confirmer Mot de Passe *</mat-label>
+    <input
+      matInput
+      [type]="hidePasswordConfirmation ? 'password' : 'text'"
+      [(ngModel)]="passwordConfirmation"
+      name="passwordConfirmation"
+    />
+    <mat-icon
+      matSuffix
+      (click)="hidePasswordConfirmation = !hidePasswordConfirmation"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hidePasswordConfirmation"
+      style="cursor: pointer"
+      >{{ hidePasswordConfirmation ? "visibility_off" : "visibility" }}</mat-icon
+    >
+    <mat-hint style="color: red" [hidden]="passwordConfirmation == password"
+      >Mots de passe différents</mat-hint
+    >
+  </mat-form-field>
+  <mat-error *ngIf="errorMessage">{{errorMessage}}</mat-error>
+  <button
+    type="submit"
+    mat-flat-button
+    color="primary"
+    [disabled]="!isValidForm()"
+  >
+    Valider
+  </button>
+</form>
